@@ -14,23 +14,25 @@ const Loading = () => {
 };
 
 export default function EntryFlow() {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [viewedOnboarding, setViewedOnboarding] = useState(false);
 
   const checkOnboarding = async () => {
     try {
+      setLoading(true);
       const value = await AsyncStorage.getItem("@viewedOnboarding");
       if (value !== null) {
         setViewedOnboarding(true);
       }
     } catch (error) {
       console.log("Error at onboarding ", error);
-    } finally {
-      setLoading(false);
     }
+    setLoading(false);
   };
   useEffect(() => {
-    checkOnboarding();
+    let isMounted = true;
+    if (isMounted) checkOnboarding();
+    isMounted = false;
   }, []);
   return (
     <View style={styles.container}>

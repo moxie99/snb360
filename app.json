@@ -9,7 +9,7 @@
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
-      "resizeMode": "cover",
+      "resizeMode": "contain",
       "backgroundColor": "#000007"
     },
     "updates": {
@@ -21,12 +21,15 @@
     "ios": {
       "supportsTablet": true
     },
-    "android": {
+    "android": { 
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#000007"
-      }
+      },
+      "package": "com.snb360.snb360",
+      "versionCode": 1
     },
+
     "web": {
       "favicon": "./assets/favicon.png"
     }

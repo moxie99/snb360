@@ -24,20 +24,20 @@ const Onboarding = ({ navigation }) => {
     NotoSans_800ExtraBold,
     NotoSans_900Black,
   });
-
-  useEffect(() => {
-    async function prepare() {
-      try {
-        await new Promise((resolve) => setTimeout(resolve, 2000));
-        await AsyncStorage.setItem("@viewedOnboarding ", "true");
-      } catch (e) {
-        console.log("error ", e);
-      } finally {
-        // Tell the application to render
-        setAppIsReady(true);
-      }
+  async function prepare() {
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      await AsyncStorage.setItem("@viewedOnboarding ", "true");
+    } catch (e) {
+      console.log("error ", e);
+    } finally {
+      // Tell the application to render
+      setAppIsReady(true);
     }
+  }
+  useEffect(() => {
     prepare();
+    onLayoutRootView();
   }, []);
 
   const onLayoutRootView = useCallback(async () => {
@@ -102,7 +102,7 @@ const Onboarding = ({ navigation }) => {
             bgColor="white"
             title="Get Started"
             mgBottom={30}
-            onPress={() => navigation.navigate("HomeScreen")}
+            onPress={() => navigation.navigate("StartWithLocation")}
           />
           <Button
             textColor="white"
@@ -112,7 +112,7 @@ const Onboarding = ({ navigation }) => {
             brColor="white"
             brWidth={1}
             brSolid="solid"
-            onPress={() => navigation.navigate("LoginScreen")}
+            onPress={() => navigation.navigate("Login")}
           />
         </View>
       </View>

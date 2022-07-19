@@ -1,12 +1,13 @@
 import React from "react";
-import { NavigationContainer } from "@react-navigation/native";
 import AppNavigator from "./navigation/AppNavigation";
+import { AuthProvider } from "./context/AuthContext";
+import ProfileStartScreen from "./screens/ProfileStartScreen";
 
 const App = () => {
   return (
-    <NavigationContainer>
+    <AuthProvider>
       <AppNavigator />
-    </NavigationContainer>
+    </AuthProvider>
   );
 };
 

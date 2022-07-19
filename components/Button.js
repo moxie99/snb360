@@ -1,6 +1,7 @@
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { Text, View, TouchableOpacity, Dimensions } from "react-native";
 import React from "react";
 
+const width = Dimensions.get("window").width * 0.9;
 export default function Button({
   title,
   textColor,
@@ -16,7 +17,7 @@ export default function Button({
       <TouchableOpacity
         style={{
           height: 48,
-          width: 328,
+          width: width,
           backgroundColor: bgColor,
           marginBottom: mgBottom,
           borderRadius: 16,
@@ -32,7 +33,7 @@ export default function Button({
           style={{
             color: textColor,
             fontSize: 14,
-            fontFamily: "NotoSans_400Regular",
+            fontFamily: "NotoSans_700Bold",
             fontWeight: "bold",
           }}
         >
