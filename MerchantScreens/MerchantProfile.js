@@ -11,12 +11,17 @@ import React from "react";
 import Ionic from "react-native-vector-icons/Ionicons";
 import Feather from "react-native-vector-icons/Feather";
 import ProfileCards from "../components/ProfileCards";
+import { useNavigation } from "@react-navigation/native";
 
 const heightBanner = Dimensions.get("window").height * 0.3;
 const paymentCardheight = Dimensions.get("window").height * 0.2;
 const salesHeight = Dimensions.get("window").height * 0.15;
 const width = Dimensions.get("window").width;
 const MerchantProfile = () => {
+  const navigation = useNavigation();
+  const navigateToPayment = () => {
+    navigation.navigate("Withdrawal");
+  };
   return (
     <SafeAreaView style={{ height: "100%", backgroundColor: "white", flex: 1 }}>
       <View
@@ -159,6 +164,7 @@ const MerchantProfile = () => {
                 alignItems: "center",
                 borderRadius: "8",
               }}
+              onPress={navigateToPayment}
             >
               <Text
                 style={{

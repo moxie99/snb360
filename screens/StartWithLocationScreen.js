@@ -15,70 +15,91 @@ const StartWithLocationScreen = () => {
   const [cityWarning, setCityWarning] = React.useState(null);
 
   // ========getting states array============
-  const statesAvailable = [];
   let index = 0;
   function getStates() {
     api
       .get("/getstates")
       .then((response) => {
-        _updateStates([...response.data]);
+        let newArray = response.data.map((item) => {
+          return { key: item.state_id, value: item.states };
+        });
+        _updateStates(newArray);
       })
       .catch((error) => {
         console.log(error);
       });
   }
-  _states.map((state) => statesAvailable.push(state.states));
-  // =========getting cities==============
-  let locationState = selectedState;
-  let locationCity = selectedCity;
-  console.log(locationState);
-  console.log(locationCity);
-  for (let i = 0; i < statesAvailable.length; i++) {
-    if (locationState === statesAvailable[i]) {
-      index = i + 1;
-    }
-  }
+  // ==========getting cities function =============
   function getCities() {
     api
-      .post("/locations", { Tranidtype: 26 })
+      .post("/locations", { Tranidtype: index })
       .then((response) => {
-        _updateCities([...response.data]);
+        let newArray = response.data.map((item) => {
+          return { key: item.ids, value: item.local_gov_area };
+        });
+        _updateCities(newArray);
       })
       .catch((error) => {
         console.log(error);
       });
   }
 
-  const citiesAvailable = [];
-  for (let i = 0; i < _cities.length; i++) {
-    citiesAvailable.push(_cities[i].local_gov_area);
-  }
-  // ======useEffect hook for both states and cities
   React.useEffect(function () {
     let isMounted = true;
     if (isMounted) {
       getStates();
-      getCities();
     }
     return () => {
       isMounted = false;
     };
   }, []);
 
+  let state = "";
+  let city = "";
+
+  let states = _states;
+  let citiesToPick = _cities;
+
+  console.log(states);
+  states.map((_state, i) => {
+    if (i + 1 === selectedState) {
+      state = _state.value;
+    }
+  });
+  citiesToPick.map((_city, i) => {
+    if (i + 1 === selectedCity) {
+      city = _city.value;
+    }
+  });
+
+  console.log(state);
+  console.log(city);
   const navigation = useNavigation();
   const register = () => {
-    if (selectedState !== null && selectedCity !== null) {
+    if (
+      selectedState !== null &&
+      selectedCity !== null &&
+      selectedState !== 1 &&
+      selectedCity !== null
+    ) {
       navigation.navigate("ContinueToOnBoard", {
-        uniqueid: index,
-        location: selectedState,
-        states: selectedCity,
+        uniqueid: selectedState,
+        states: state,
+        location: city,
       });
-    } else if (selectedState === null) {
+    } else if (selectedState === null || selectedState === 1) {
       setStateWarning("Please Select a State!!");
-    } else if (selectedCity === null) {
+    } else if (selectedCity === null || selectedCity === 1) {
       setCityWarning("Please select a City!!");
-    } else if (selectedState === null && selectedCity === null) {
+    } else if (
+      selectedState === null &&
+      selectedCity === null &&
+      selectedState === 1 &&
+      selectedCity === 1
+    ) {
       setStateWarning("Please Select a State!!");
+      setCityWarning("Please select a City!!");
+    } else if (selectedState !== 1 && selectedCity === 1) {
       setCityWarning("Please select a City!!");
     }
   };
@@ -125,8 +146,12 @@ const StartWithLocationScreen = () => {
         </View>
         <View style={{ paddingHorizontal: 20, paddingVertical: 20 }}>
           <SelectList
-            data={statesAvailable}
             setSelected={setSelectedState}
+            data={_states}
+            onSelect={() => {
+              index = selectedState.toString();
+              getCities();
+            }}
             dropdownItemStyles={{ marginHorizontal: 10, marginVertical: 3 }}
             placeholder="Select state"
           />
@@ -136,26 +161,30 @@ const StartWithLocationScreen = () => {
         </View>
         <View style={{ paddingHorizontal: 20, paddingVertical: 10 }}>
           <SelectList
-            data={citiesAvailable}
             setSelected={setSelectedCities}
+            data={_cities}
+            onSelect={() => {}}
             dropdownItemStyles={{ marginHorizontal: 10, marginVertical: 3 }}
-            placeholder="City"
+            placeholder="Select City"
           />
         </View>
         <View style={{ alignItems: "center", justifyContent: "center" }}>
           <Text style={{ color: "red" }}>{cityWarning}</Text>
         </View>
         <View
-          style={{ position: "absolute", bottom: "10%", paddingLeft: "10%" }}
+          style={{
+            position: "absolute",
+            bottom: "10%",
+            right: "5%",
+            left: "5%",
+          }}
         >
-          <View>
-            <Button
-              textColor="white"
-              bgColor="#1F4287"
-              title="Next"
-              onPress={register}
-            />
-          </View>
+          <Button
+            textColor="white"
+            bgColor="#1F4287"
+            title="Next"
+            onPress={register}
+          />
         </View>
       </ScrollView>
     </SafeAreaView>

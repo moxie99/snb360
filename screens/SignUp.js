@@ -29,33 +29,6 @@ const SignUp = () => {
     states: route.params.location,
   };
 
-  // const signUpToVerify = async () => {
-  //   let requestOptions = {
-  //     headers: {
-  //       "Content-Type": "application/x-www-form-urlencoded; charset=utf-8",
-  //     },
-  //   };
-  //   return api
-  //     .post("/register", qs.stringify(data), requestOptions)
-  //     .then((response) => {
-  //       if (response.status === 200 && response.data != "Email already exist") {
-  //         navigation.navigate("VerifyAccount", data);
-  //         console.log(response);
-  //       } else if (response.data === "Email already exist") {
-  //         setEmailError(response.data);
-  //       } else if (name === null) {
-  //         setNameError("Please Enter a valid name");
-  //       } else if (email === null) {
-  //         setEmailError("Please Enter a valid email");
-  //       } else if (password === null) {
-  //         setPasswordError("Please Enter a valid password");
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // };
-
   const signUpToVerify = () => {
     axios({
       method: "POST",

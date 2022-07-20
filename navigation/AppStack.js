@@ -18,6 +18,9 @@ import BankDetailsEntry from "../MerchantScreens/BankDetailsEntry";
 import MerchantProfile from "../MerchantScreens/MerchantProfile";
 import ProfileCards from "../components/ProfileCards";
 import MerchantsRegisteredSuccessful from "../MerchantScreens/MerchantsRegisteredSuccessful";
+import MakeWithdrawalScreen from "../MerchantScreens/MakeWithdrawalScreen";
+import MakeWithdrawalScreenWithAccountDetails from "../MerchantScreens/MakeWithdrawalScreenWithAccountDetails";
+import MerchantEnterBankDetailsLater from "../MerchantScreens/MerchantEnterBankDetailsLater";
 const Stack = createNativeStackNavigator();
 
 const AppStack = () => {
@@ -48,6 +51,15 @@ const AppStack = () => {
       <Stack.Screen
         name="MerchantCongratsScreen"
         component={MerchantsRegisteredSuccessful}
+      />
+      <Stack.Screen name="Withdrawal" component={MakeWithdrawalScreen} />
+      <Stack.Screen
+        name="MakeWithDrawal"
+        component={MakeWithdrawalScreenWithAccountDetails}
+      />
+      <Stack.Screen
+        name="MerchantEnterBankDetailsLater"
+        component={MerchantEnterBankDetailsLater}
       />
     </Stack.Navigator>
   );

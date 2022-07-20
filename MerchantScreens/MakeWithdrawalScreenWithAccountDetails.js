@@ -6,24 +6,17 @@ import {
   View,
 } from "react-native";
 import React from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
 import ProfileHeader from "../components/ProfileHeader";
-import Feather from "react-native-vector-icons/Feather";
+import { SafeAreaView } from "react-native-safe-area-context";
 import Button from "../components/Button";
-import { useNavigation } from "@react-navigation/native";
 
-const MakeWithdrawalScreen = () => {
-  const navigation = useNavigation();
-  const enterBankDetails = () => {
-    // navigation.navigate("MerchantEnterBankDetailsLater");
-    navigation.navigate("MakeWithDrawal");
-  };
+const MakeWithdrawalScreenWithAccountDetails = () => {
   return (
     <SafeAreaView style={{ backgroundColor: "white", height: "100%" }}>
       <View>
         <ProfileHeader title="Make Withdrawal" />
       </View>
-      <View style={{ paddingHorizontal: "5%", paddingVertical: 20 }}>
+      <View style={{ paddingHorizontal: "3%", paddingVertical: "4%" }}>
         <Text>Bank Details</Text>
       </View>
       <View
@@ -31,33 +24,54 @@ const MakeWithdrawalScreen = () => {
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "space-between",
-          paddingHorizontal: 20,
+          paddingHorizontal: "3%",
+          paddingVertical: "4%",
         }}
       >
-        <Text>NA</Text>
+        <Text>Bank:</Text>
+        <Text>Zenith</Text>
+      </View>
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
+          paddingHorizontal: "3%",
+          paddingVertical: "4%",
+        }}
+      >
+        <Text>Account Name:</Text>
+        <Text>Mark Thuram</Text>
+      </View>
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
+          paddingHorizontal: "3%",
+          paddingVertical: "4%",
+        }}
+      >
+        <Text>Account Number:</Text>
+        <Text>3344510011</Text>
+      </View>
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          paddingHorizontal: "3%",
+          paddingVertical: "4%",
+        }}
+      >
+        <Text>To change Bank details, contact our </Text>
         <View>
-          <TouchableOpacity
-            style={{
-              width: 107,
-              height: 32,
-              justifyContent: "center",
-              alignItems: "center",
-              flexDirection: "row",
-              borderRadius: 8,
-              borderWidth: 1,
-              borderColor: "#1F4287",
-            }}
-            onPress={enterBankDetails}
-          >
-            <Feather name="plus" size={18} color="#1F4287" />
-            <Text>Add</Text>
+          <TouchableOpacity>
+            <Text style={{ textDecorationLine: "underline" }}>
+              Customer Service
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
-      <View style={{ paddingHorizontal: "5%", paddingVertical: 20 }}>
-        <Text>To change Bank details, contact our Customer Service</Text>
-      </View>
-
       <View
         style={{
           position: "absolute",
@@ -122,6 +136,6 @@ const MakeWithdrawalScreen = () => {
   );
 };
 
-export default MakeWithdrawalScreen;
+export default MakeWithdrawalScreenWithAccountDetails;
 
 const styles = StyleSheet.create({});

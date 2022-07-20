@@ -26,11 +26,11 @@ const AuthStack = () => {
         name="StartWithLocation"
         component={StartWithLocationScreen}
       />
+      <Stack.Screen name="ContinueToOnBoard" component={ContinueToOnBoard} />
+      <Stack.Screen name="SignUp" component={SignUp} />
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
       <Stack.Screen name="VerifyAccount" component={VerifyAccount} />
-      <Stack.Screen name="SignUp" component={SignUp} />
-      <Stack.Screen name="ContinueToOnBoard" component={ContinueToOnBoard} />
       <Stack.Screen name="NewPassword" component={NewPasswordScreen} />
       <Stack.Screen
         name="VerifyChangePasswordScreen"
