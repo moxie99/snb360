@@ -30,6 +30,34 @@ const SignUp = () => {
   };
 
   const signUpToVerify = () => {
+    if (password === null && email === null && name === null) {
+      setEmailError("Please enter a valid email");
+      setPasswordError("Please enter a valid password");
+      setNameError("Please enter a valid name");
+      return null;
+    } else if (password === null && email === null) {
+      setEmailError("Please enter a valid email");
+      setPasswordError("Please enter a valid password");
+      return null;
+    } else if (email === null && name === null) {
+      setEmailError("Please enter a valid email");
+      setNameError("Please enter a valid name");
+      return null;
+    } else if (password === null && name === null) {
+      setPasswordError("Please enter a valid Password");
+      setNameError("Please enter a valid name");
+      return null;
+    } else if (password === null) {
+      setPasswordError("Please enter a valid password");
+      return null;
+    } else if (email === null) {
+      setEmailError("Please enter a valid email");
+      return null;
+    } else if (name === null) {
+      setNameError("Please enter a valid name");
+      return null;
+    }
+
     axios({
       method: "POST",
       url: "https://mbiapi.snb366.com.ng/api/snb360/register",
@@ -49,10 +77,7 @@ const SignUp = () => {
         console.log(response.data);
         if (response.data === "Email already exist") {
           setEmailError(response.data);
-        } else if (password === null && email === null && name === null) {
-          setEmailError("Please enter a valid email");
-          setPasswordError("Please enter a valid password");
-          setNameError("Please enter a valid name");
+          return null;
         } else if (
           response.data === "Registration not successful" ||
           email === null
@@ -68,6 +93,10 @@ const SignUp = () => {
           name === null
         ) {
           setNameError("Please enter a valid name");
+        } else if (
+          response.data === "Invalid name. Please enter your correct name"
+        ) {
+          setNameError("Please enter a Full name");
         } else if (
           response.data === "Check your email for verification code" &&
           email !== null &&

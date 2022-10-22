@@ -10,7 +10,8 @@ const VerifyAccount = () => {
   const route = useRoute();
   const navigation = useNavigation();
   const [code, setCode] = React.useState("");
-
+  const [codeError, setCodeError] = React.useState("");
+  const [codeSuccess, setCodeSuccess] = React.useState("");
   const data = {
     Firstnm: route.params.Firstnm,
     UserName: route.params.UserName,
@@ -27,11 +28,14 @@ const VerifyAccount = () => {
     api
       .post("/Verifyemailcode", codeInput)
       .then((response) => {
-        if (response.status === 200) {
+        console.log(response.data);
+        if (response.data === "Verification failed") {
+          console.warn("Invalid Code");
+          setCodeError("Invalid Code");
+        } else if (response.data === "Verification Successful") {
+          setCodeSuccess("Verification Successful");
           navigation.navigate("Login", data);
           console.log(response.data);
-        } else {
-          console.warn("Invalid Login");
         }
       })
       .catch((error) => {
@@ -83,6 +87,9 @@ const VerifyAccount = () => {
           setEntry={setCode}
         />
       </View>
+      <View style={{ alignItems: "center", justifyContent: "center" }}>
+        <Text style={{ color: "red", fontStyle: "italic" }}>{codeError}</Text>
+      </View>
       <View style={{ marginTop: 10, paddingLeft: 30 }}>
         <Text
           style={{
@@ -95,7 +102,26 @@ const VerifyAccount = () => {
           If you don’t see the email in your inbox, check your spam folder
         </Text>
       </View>
-      <View style={{ position: "absolute", bottom: "10%", paddingLeft: "10%" }}>
+      <View style={{ alignItems: "center", justifyContent: "center" }}>
+        <Text
+          style={{
+            color: "green",
+            fontStyle: "italic",
+            fontWeight: "bold",
+            fontSize: 14,
+          }}
+        >
+          {codeSuccess}
+        </Text>
+      </View>
+      <View
+        style={{
+          position: "absolute",
+          bottom: "10%",
+          left: "5%",
+          right: "5%",
+        }}
+      >
         <View>
           <Button
             textColor="white"

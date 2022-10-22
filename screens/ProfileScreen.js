@@ -6,13 +6,16 @@ import {
   Dimensions,
   TouchableOpacity,
 } from "react-native";
-import React from "react";
+import * as React from "react";
 import Ionic from "react-native-vector-icons/Ionicons";
 import ProfileCards from "../components/ProfileCards";
+import { AuthContext } from "../context/AuthContext";
 
 const ProfileScreen = ({ navigation }) => {
   const bannerHeight = Dimensions.get("window").height * 0.3;
   const actionHeight = Dimensions.get("window").height * 0.18;
+
+  const { name, deliveryNames } = React.useContext(AuthContext);
 
   return (
     <SafeAreaView>
@@ -60,9 +63,17 @@ const ProfileScreen = ({ navigation }) => {
               alignItems: "center",
             }}
           >
-            <Text style={{ color: "white", lineHeight: 27 }}>M</Text>
+            <Text style={{ color: "white", lineHeight: 27 }}>
+              {deliveryNames !== null
+                ? JSON.parse(deliveryNames)[0]
+                : JSON.parse(name)[0]}
+            </Text>
           </TouchableOpacity>
-          <Text style={{ color: "white", lineHeight: 60 }}>Mark Thuram</Text>
+          <Text style={{ color: "white", lineHeight: 60 }}>
+            {deliveryNames !== null
+              ? JSON.parse(deliveryNames)
+              : JSON.parse(name)}
+          </Text>
         </View>
       </View>
       <View
@@ -107,7 +118,11 @@ const ProfileScreen = ({ navigation }) => {
           Start listing items for sale and respond to customer’s request when
           you register as a merchant. Registration is FREE
         </Text>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("merchantOnboarding");
+          }}
+        >
           <Text
             style={{
               color: "#1F4287",

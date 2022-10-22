@@ -15,7 +15,7 @@ const StartWithLocationScreen = () => {
   const [cityWarning, setCityWarning] = React.useState(null);
 
   // ========getting states array============
-  let index = 0;
+  let index;
   function getStates() {
     api
       .get("/getstates")
@@ -59,8 +59,6 @@ const StartWithLocationScreen = () => {
 
   let states = _states;
   let citiesToPick = _cities;
-
-  console.log(states);
   states.map((_state, i) => {
     if (i + 1 === selectedState) {
       state = _state.value;
@@ -71,9 +69,6 @@ const StartWithLocationScreen = () => {
       city = _city.value;
     }
   });
-
-  console.log(state);
-  console.log(city);
   const navigation = useNavigation();
   const register = () => {
     if (
@@ -91,6 +86,7 @@ const StartWithLocationScreen = () => {
       setStateWarning("Please Select a State!!");
     } else if (selectedCity === null || selectedCity === 1) {
       setCityWarning("Please select a City!!");
+      return;
     } else if (
       selectedState === null &&
       selectedCity === null &&
@@ -99,8 +95,11 @@ const StartWithLocationScreen = () => {
     ) {
       setStateWarning("Please Select a State!!");
       setCityWarning("Please select a City!!");
+      return;
     } else if (selectedState !== 1 && selectedCity === 1) {
       setCityWarning("Please select a City!!");
+    } else if (selectedState === null && selectedCity === null) {
+      return;
     }
   };
   return (

@@ -7,16 +7,20 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React from "react";
+import * as React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import InputComponent from "../components/InputComponent";
 import Footer from "../components/Footer";
 import Fontisto from "react-native-vector-icons/Fontisto";
+import { AuthContext } from "../context/AuthContext";
 
 const height = Dimensions.get("window").height * 0.8;
 const heightCard = Dimensions.get("window").height * 0.7;
 
 const EnterPhoneNumberScreen = ({ navigation }) => {
+  const [phoneNumber, setPhoneNumber] = React.useState(null);
+  const { merchantPhoneNumber, userId, userToken } =
+    React.useContext(AuthContext);
   const navigateToVerifyNumber = () => {
     navigation.navigate("VerifyNumber");
   };
@@ -43,6 +47,10 @@ const EnterPhoneNumberScreen = ({ navigation }) => {
           style={{ flex: 1 }}
           placeholder="Phone Number"
           underlineColorAndroid="transparent"
+          value={phoneNumber}
+          onChangeText={(value) => {
+            setPhoneNumber(value);
+          }}
         />
       </View>
       <View
@@ -82,7 +90,13 @@ const EnterPhoneNumberScreen = ({ navigation }) => {
           alignItems: "center",
         }}
       >
-        <Footer title="Continue" onPress={navigateToVerifyNumber} />
+        <Footer
+          title="Continue"
+          onPress={() => {
+            merchantPhoneNumber(userId, phoneNumber, userToken);
+            navigateToVerifyNumber();
+          }}
+        />
       </View>
     </SafeAreaView>
   );

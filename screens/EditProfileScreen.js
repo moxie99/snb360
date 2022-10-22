@@ -6,13 +6,16 @@ import {
   Dimensions,
   TouchableOpacity,
 } from "react-native";
-import React from "react";
+import React, { useContext } from "react";
 import ProfileHeader from "../components/ProfileHeader";
 import Ionic from "react-native-vector-icons/Ionicons";
+import { AuthContext } from "../context/AuthContext";
 
 const headerHeight = Dimensions.get("window").height * 0.09;
 const cardHeight = Dimensions.get("window").height * 0.05;
+
 const EditProfileScreen = ({ navigation }) => {
+  const { logout, email, name, deliveryNames } = useContext(AuthContext);
   return (
     <SafeAreaView>
       <View
@@ -55,7 +58,7 @@ const EditProfileScreen = ({ navigation }) => {
               lineHeight: 17,
             }}
           >
-            adeolusegun99@gmail.com
+            {email}
           </Text>
         </View>
         <View style={{ width: "100%", height: headerHeight, paddingLeft: 10 }}>
@@ -83,7 +86,11 @@ const EditProfileScreen = ({ navigation }) => {
               </Text>
             </View>
             <View>
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate("changePassword");
+                }}
+              >
                 <Ionic name="pencil-outline" color="black" size={24} />
               </TouchableOpacity>
             </View>
@@ -97,13 +104,19 @@ const EditProfileScreen = ({ navigation }) => {
               fontSize: 14,
             }}
           >
-            adeolusegun99@gmail.com
+            {deliveryNames !== null
+              ? JSON.parse(deliveryNames)
+              : JSON.parse(name)}
           </Text>
         </View>
       </View>
       <View style={{ marginTop: 10, backgroundColor: "white" }}>
         <View style={{ width: "100%", height: cardHeight, paddingLeft: 10 }}>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              logout();
+            }}
+          >
             <Text
               style={{
                 color: "black",

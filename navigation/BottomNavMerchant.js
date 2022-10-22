@@ -11,7 +11,7 @@ import ProfileScreen from "../screens/ProfileScreen";
 
 const Tab = createBottomTabNavigator();
 
-const TabNavigator = () => {
+const BottomNavMerchant = () => {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -67,4 +67,4 @@ const TabNavigator = () => {
   );
 };
 
-export default TabNavigator;
+export default BottomNavMerchant;

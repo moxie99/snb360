@@ -1,11 +1,24 @@
 import { StyleSheet, Text, View, Image, Modal, Dimensions } from "react-native";
-import React from "react";
+import React, { useContext } from "react";
 import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context";
 import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { AuthContext } from "../context/AuthContext";
 
 const height = Dimensions.get("window").height * 0.73;
 const ProfileStartScreen = () => {
+  const {
+    userToken,
+    email,
+    password,
+    name,
+    locations,
+    state,
+    locationsid,
+    roles,
+    userId,
+  } = useContext(AuthContext);
+
   return (
     <SafeAreaView>
       <View
@@ -34,14 +47,6 @@ const ProfileStartScreen = () => {
           />
         </View>
       </View>
-      {/* <View style={{ position: "absolute", bottom: -height, left: "40%" }}>
-        <MaterialCommunityIcons
-          name="plus"
-          size={30}
-          color="green"
-          style={{ paddingLeft: 20, zIndex: 100 }}
-        />
-      </View> */}
     </SafeAreaView>
   );
 };

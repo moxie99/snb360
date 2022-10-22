@@ -4,8 +4,11 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import ProfileHeader from "../components/ProfileHeader";
 import Ionic from "react-native-vector-icons/Ionicons";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { AuthContext } from "../context/AuthContext";
 
 const EditSettingScreen = ({ navigation }) => {
+  const { location, stateLocation, shippingAddres, deliveryNames, phoneNo } =
+    React.useContext(AuthContext);
   return (
     <SafeAreaView style={{ paddingLeft: 20 }}>
       <View>
@@ -70,18 +73,28 @@ const EditSettingScreen = ({ navigation }) => {
       </View>
       <View style={{ marginTop: 20 }}>
         <Text style={{ paddingTop: 5 }}>Shipping Address</Text>
-        <Text style={{ paddingTop: 5 }}>NA</Text>
+        <Text style={{ paddingTop: 5 }}>
+          {shippingAddres !== null ? JSON.parse(shippingAddres) : "N/A"}
+        </Text>
       </View>
       <View style={{ marginTop: 20 }}>
-        <Text style={{ paddingTop: 5 }}>Asaba, Delta State</Text>
+        <Text style={{ paddingTop: 5 }}>
+          {location !== null && stateLocation !== null
+            ? JSON.parse(location) + " " + JSON.parse(stateLocation)
+            : "N/A"}
+        </Text>
       </View>
       <View style={{ marginTop: 20 }}>
         <Text style={{ paddingTop: 5 }}>Name</Text>
-        <Text style={{ paddingTop: 5 }}>NA</Text>
+        <Text style={{ paddingTop: 5 }}>
+          {deliveryNames !== null ? JSON.parse(deliveryNames) : "N/A"}
+        </Text>
       </View>
       <View style={{ marginTop: 20 }}>
         <Text style={{ paddingTop: 5 }}>Phone</Text>
-        <Text style={{ paddingTop: 5 }}>NA</Text>
+        <Text style={{ paddingTop: 5 }}>
+          {phoneNo !== null ? JSON.parse(phoneNo) : "N/A"}
+        </Text>
       </View>
       <View
         style={{

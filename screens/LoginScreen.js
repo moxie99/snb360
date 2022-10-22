@@ -19,6 +19,13 @@ const LoginScreen = () => {
   const { loginToken, login } = useContext(AuthContext);
 
   const navigation = useNavigation();
+  async function loginWithToken() {
+    const token = await loginToken("password", email, password);
+
+    const data = await login(email, password, token);
+
+    console.log(data);
+  }
   return (
     <SafeAreaView>
       <View style={styles.container}>
@@ -87,7 +94,7 @@ const LoginScreen = () => {
             entry={password}
             setEntry={setPassword}
             value={password}
-            onChange={(value) => setPassword(value)}
+            onChangeText={(value) => setPassword(value)}
             textSecure={true}
           />
         </View>
@@ -115,9 +122,8 @@ const LoginScreen = () => {
             bgColor="#1F4287"
             title="Login"
             brColor="white"
-            onPress={() => {
-              // login("password", email, password);
-              loginToken("password", email, password);
+            onPress={async () => {
+              await loginWithToken();
             }}
           />
         </View>

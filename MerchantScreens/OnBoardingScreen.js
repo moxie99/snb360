@@ -6,13 +6,71 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React from "react";
+import * as React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import InputComponent from "../components/InputComponent";
 import Button from "../components/Button";
-
+import * as ImagePicker from "expo-image-picker";
+import { AuthContext } from "../context/AuthContext";
 const height = Dimensions.get("window").height * 0.8;
 const OnBoardingScreen = ({ navigation }) => {
+  const { userToken } = React.useContext(AuthContext);
+  const [image, setImage] = React.useState(null);
+  const [businessName, setBusinessName] = React.useState(null);
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.cancelled) {
+      setImage(result.uri);
+    }
+  };
+
+  console.log(image);
+  console.log(businessName);
+  const uploadImage = async () => {
+    // Check if any file is selected or not
+    if (image != null) {
+      // If file selected then create FormData
+      const fileToUpload = image;
+      const name = businessName.trim();
+      console.log({ fileToUpload, name });
+      const data = new FormData();
+      data.append("Uploadfile", fileToUpload);
+      data.append("Content-Disposition", "form-data");
+      data.append("name", name);
+      data.append("filename", fileToUpload);
+      data.append("Content-Type", "application/octet-stream");
+      // Please change file upload URL
+      let res = await fetch(
+        "https://mbiapi.snb366.com.ng/api/snb360/Uploadmerchprofilepic",
+        {
+          method: "post",
+          body: data,
+          headers: {
+            "Content-type": "application/json",
+            Authorization: "Bearer " + userToken,
+          },
+        }
+      );
+      let responseJson = await res.json();
+      console.log(responseJson);
+      if (responseJson.status == 1) {
+        alert("Upload Successful");
+      }
+    } else {
+      // If no file selected the show alert
+      alert("Please Select File first");
+    }
+  };
+
   const navigateToLocation = () => {
     navigation.navigate("merchantLocation");
   };
@@ -37,7 +95,12 @@ const OnBoardingScreen = ({ navigation }) => {
         <Text>Business/Shop Name</Text>
       </View>
       <View style={{ alignItems: "center", justifyContent: "center" }}>
-        <InputComponent />
+        <InputComponent
+          entry={businessName}
+          setEntry={setBusinessName}
+          value={businessName}
+          onChangeText={(value) => setBusinessName(value)}
+        />
       </View>
       <View
         style={{ paddingTop: "2%", paddingBottom: "2%", paddingLeft: "3%" }}
@@ -58,11 +121,27 @@ const OnBoardingScreen = ({ navigation }) => {
           alignItems: "center",
         }}
       >
-        <Image
-          style={{ width: 24, height: 24, resizeMode: "cover" }}
-          source={require("../assets/add_photo_alternate.png")}
-        />
-        <Text>Add a Photo</Text>
+        <TouchableOpacity
+          style={{ flexDirection: "row", alignItems: "center" }}
+          onPress={pickImage}
+        >
+          <Image
+            style={{ width: 24, height: 24, resizeMode: "cover" }}
+            source={require("../assets/add_photo_alternate.png")}
+          />
+          <Text>Add a Photo</Text>
+        </TouchableOpacity>
+      </View>
+      <View
+        style={{
+          alignItems: "center",
+          justifyContent: "center",
+          margin: "20%",
+        }}
+      >
+        {image && (
+          <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
+        )}
       </View>
       <View
         style={{
@@ -80,7 +159,10 @@ const OnBoardingScreen = ({ navigation }) => {
             title="Next"
             textColor="white"
             bgColor="#1F4287"
-            onPress={navigateToLocation}
+            onPress={async () => {
+              uploadImage();
+              navigateToLocation();
+            }}
           />
         </View>
         <View>

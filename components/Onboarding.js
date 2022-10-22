@@ -38,6 +38,9 @@ const Onboarding = ({ navigation }) => {
   useEffect(() => {
     prepare();
     onLayoutRootView();
+    return () => {
+      setAppIsReady(false);
+    };
   }, []);
 
   const onLayoutRootView = useCallback(async () => {
